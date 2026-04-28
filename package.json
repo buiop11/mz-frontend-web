@@ -1,0 +1,26 @@
+{
+  "name": "mz-frontend-web",
+  "version": "1.0.0",
+  "description": "맛찡랩 웹사이트 프론트엔드 프로젝트입니다.",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 4100",
+    "build": "next build",
+    "start": "next start -p 4100",
+    "lint": "next lint",
+    "type-check": "node -e \"console.log('No TypeScript project')\""
+  },
+  "dependencies": {
+    "next": "^15.2.4",
+    "prop-types": "^15.8.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^15.2.4",
+    "postcss": "^8.5.12",
+    "tailwindcss": "^4.1.3"
+  }
+}
