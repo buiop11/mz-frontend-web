@@ -3,6 +3,7 @@
 const NAV = [
   { href: "/new", label: "[NEW]" },
   { href: "/popular", label: "[POPULAR]" },
+  { href: "/calendar", label: "[CALENDAR]" },
   { href: "/media", label: "[BY CATEGORY]" },
   { href: "/support/contact", label: "[CONTACT]" },
 ];
