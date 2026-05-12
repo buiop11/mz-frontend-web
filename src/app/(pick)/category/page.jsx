@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { CategorySectionFromApi } from "@/components/ourpick/category-section-from-api";
+
 export const metadata = {
   title: "카테고리",
 };
@@ -39,12 +41,7 @@ export default function CategoryPage() {
         <p className="text-xs font-semibold uppercase tracking-wide text-pick-muted">
           분야
         </p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          <FilterChip active>웨딩</FilterChip>
-          <FilterChip>구매</FilterChip>
-          <FilterChip>데이트</FilterChip>
-          <FilterChip>식사</FilterChip>
-        </div>
+        <CategorySectionFromApi />
       </div>
 
       <ul className="mt-5 space-y-3 px-4">
@@ -80,21 +77,6 @@ export default function CategoryPage() {
         </Link>
       </div>
     </div>
-  );
-}
-
-function FilterChip({ children, active }) {
-  return (
-    <button
-      type="button"
-      className={
-        active
-          ? "rounded-full bg-pick-mint px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm"
-          : "rounded-full bg-pick-chip px-3.5 py-1.5 text-sm font-medium text-pick-muted transition hover:bg-white"
-      }
-    >
-      {children}
-    </button>
   );
 }
 

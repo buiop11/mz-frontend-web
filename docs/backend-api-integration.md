@@ -223,6 +223,53 @@
 | `src/app/(app)/(home)/page.jsx` | 서버에서 데이터 로드 후 `comp.jsx`에 전달 |
 | `src/app/(app)/(home)/comp.jsx` | 히어로 캐러셀·카테고리 UI |
 
+## 카테고리 분야 (칩) — `/category` 화면
+
+- **백엔드 직접 호출:** `GET {BACKEND_API_URL 또는 NEXT_PUBLIC_API_URL}/api/category?currentPage=1`
+- **브라우저에서 보이는 요청(네트워크 탭):** `GET /api/category?currentPage=1` — Next **Route Handler** (`src/app/api/category/route.js`)가 위 백엔드로 프록시합니다.
+- **화면:** `CategorySectionFromApi` 클라이언트 컴포넌트가 동일 출처 `/api/category`를 호출합니다. 그래서 개발자 도구 → 네트워크에 **`localhost:4100`(등)의 `/api/category`** 가 보입니다.
+- **주의:** 예전처럼 **서버 컴포넌트만** 백엔드로 `fetch`하면 요청은 **Node 서버**에서 나가므로 **브라우저 네트워크 탭에는 안 보입니다.**
+
+### 환경 변수
+
+| 변수 | 설명 |
+| --- | --- |
+| `BACKEND_API_URL` | 권장. 서버(Route Handler·`getCategories`)만 사용, 번들에 노출 안 됨. 예: `http://localhost` |
+| `NEXT_PUBLIC_API_URL` | 클라이언트에서 직접 백엔드 호출할 때도 필요할 때 사용 |
+
+`.env.local` 수정 후 **`npm run dev`를 재시작**해야 반영됩니다.
+
+### 응답 예시 (백엔드)
+
+```json
+{
+  "code": "SUC001",
+  "message": "처리가 완료되었습니다.",
+  "data": {
+    "totalCount": 4,
+    "list": [
+      { "categorySeq": 1, "name": "쇼핑", "iconUrl": "https://cdn.example.com/icons/cart.png" }
+    ],
+    "pageNum": 1,
+    "pageSize": 10,
+    "isLastPage": true
+  }
+}
+```
+
+### 관련 파일
+
+| 파일 | 역할 |
+| --- | --- |
+| `src/lib/api/category.js` | `resolveBackendApiRoot`, `parseCategoryApiResponse`, `getCategories`, 폴백 |
+| `src/app/api/category/route.js` | 브라우저용 프록시 |
+| `src/components/ourpick/category-section-from-api.jsx` | 클라이언트에서 `/api/category` 호출 |
+
+### UI
+
+- `name`이 칩 라벨로 표시됩니다.
+- `iconUrl`이 있으면 칩 왼쪽에 작은 이미지를 붙입니다(일반 `<img>`).
+
 ## 버전 정책
 
 스키마를 바꿀 때는 이 문서와 `normalizeHomePayload`를 함께 업데이트하고, 하위 호환 필드를 유지하거나 API 버전(`v2`)을 도입하는 것을 권장합니다.
