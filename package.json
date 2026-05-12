@@ -1,7 +1,7 @@
 {
   "name": "mz-frontend-web",
   "version": "1.0.0",
-  "description": "맛찡랩 웹사이트 프론트엔드 프로젝트입니다.",
+  "description": "우리결정(OurPick) 웹 — 커플·부부 의사결정 MVP",
   "private": true,
   "scripts": {
     "dev": "next dev -p 4100",
