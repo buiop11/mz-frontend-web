@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { OngoingAgendasFromApi } from "@/components/ourpick/ongoing-agendas-from-api";
+
 export const metadata = {
   title: "결정 대기실",
 };
@@ -57,7 +59,7 @@ export default function HomePage() {
               id="hero-title"
               className="relative font-display text-lg font-extrabold leading-snug drop-shadow-sm"
             >
-              윤아님, 이번 주 3개의 중대 의결사항이 있어요!
+              아진님, 이번 주 3개의 중대 의결사항이 있어요!
             </p>
             <p className="relative mt-2 text-sm leading-relaxed text-white/92">
               링크를 붙여 넣고 후보를 모아, 투표로 가볍게 결정해요.
@@ -104,22 +106,7 @@ export default function HomePage() {
             전체 보기
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <AgendaCard
-            title="유모차 구매"
-            tag="투표 중"
-            tagVariant="mint"
-            href="/vote/stroller"
-            emoji="🍼"
-          />
-          <AgendaCard
-            title="청첩장 선택"
-            tag="상대 확인 완료"
-            tagVariant="neutral"
-            href="/vote/invite"
-            emoji="💌"
-          />
-        </div>
+        <OngoingAgendasFromApi limit={10} searchParams={{ currentPage: 1 }} />
       </section>
     </div>
   );
@@ -135,32 +122,6 @@ function Stat({ label, value, accent }) {
       </p>
       <p className="mt-0.5 text-[11px] font-semibold text-pick-muted">{label}</p>
     </div>
-  );
-}
-
-function AgendaCard({ title, tag, tagVariant, href, emoji }) {
-  const tagClass =
-    tagVariant === "mint"
-      ? "bg-pick-mint/12 text-pick-mint ring-1 ring-pick-mint/25"
-      : "bg-pick-chip text-pick-muted ring-1 ring-pick-line";
-  return (
-    <Link
-      href={href}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-pick-line/90 bg-pick-card p-4 shadow-[0_14px_36px_-28px_rgba(51,45,43,0.35)] transition hover:-translate-y-0.5 hover:border-pick-mint/35 hover:shadow-lg"
-    >
-      <span className="text-2xl drop-shadow-sm">{emoji}</span>
-      <span
-        className={`mb-2 mt-3 inline-flex w-fit rounded-full px-2.5 py-0.5 text-[10px] font-bold ${tagClass}`}
-      >
-        {tag}
-      </span>
-      <span className="font-display text-sm font-extrabold leading-snug text-pick-ink group-hover:text-pick-mint">
-        {title}
-      </span>
-      <span className="mt-2 text-[11px] font-semibold text-pick-muted opacity-0 transition group-hover:opacity-100">
-        탭하여 비교 · 투표 →
-      </span>
-    </Link>
   );
 }
 

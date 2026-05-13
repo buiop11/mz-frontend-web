@@ -1,20 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
- * 백엔드에서 받은 카테고리 목록을 칩으로 표시합니다. (클릭 시 활성 탭만 전환)
+ * 맨 앞에 「전체」칩을 두고, 그 다음은 백엔드 카테고리 목록입니다.
+ * `activeIndex === 0` → 전체 조회(`categorySeq` 없음).
  *
- * @param {{ categories: { categorySeq: number, name: string, iconUrl: string | null }[] }} props
+ * @param {{
+ *   categories: { categorySeq: number, name: string, iconUrl: string | null }[];
+ *   onCategorySeqChange?: (categorySeq: number | null) => void;
+ * }} props
  */
-export function CategoryFilterBar({ categories }) {
+export function CategoryFilterBar({ categories = [], onCategorySeqChange }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const chipCount = 1 + categories.length;
 
-  if (!categories?.length) {
-    return (
-      <p className="mt-2 text-sm text-pick-muted">표시할 카테고리가 없습니다.</p>
-    );
-  }
+  useEffect(() => {
+    if (activeIndex >= chipCount) {
+      setActiveIndex(0);
+      return;
+    }
+    if (activeIndex === 0) {
+      onCategorySeqChange?.(null);
+      return;
+    }
+    const cat = categories[activeIndex - 1];
+    if (cat?.categorySeq != null) {
+      onCategorySeqChange?.(cat.categorySeq);
+    }
+  }, [categories, activeIndex, onCategorySeqChange, chipCount]);
 
   return (
     <div
@@ -22,15 +36,31 @@ export function CategoryFilterBar({ categories }) {
       role="tablist"
       aria-label="분야 필터"
     >
+      <button
+        key="all"
+        type="button"
+        role="tab"
+        aria-selected={activeIndex === 0}
+        onClick={() => setActiveIndex(0)}
+        className={
+          activeIndex === 0
+            ? "inline-flex items-center gap-1.5 rounded-full bg-pick-mint px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm"
+            : "inline-flex items-center gap-1.5 rounded-full bg-pick-chip px-3.5 py-1.5 text-sm font-medium text-pick-muted transition hover:bg-white"
+        }
+      >
+        <span>전체</span>
+      </button>
+
       {categories.map((cat, index) => {
-        const active = index === activeIndex;
+        const chipIndex = index + 1;
+        const active = chipIndex === activeIndex;
         return (
           <button
             key={`${cat.categorySeq}-${index}-${cat.name}`}
             type="button"
             role="tab"
             aria-selected={active}
-            onClick={() => setActiveIndex(index)}
+            onClick={() => setActiveIndex(chipIndex)}
             className={
               active
                 ? "inline-flex items-center gap-1.5 rounded-full bg-pick-mint px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm"

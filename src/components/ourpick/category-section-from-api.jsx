@@ -12,8 +12,10 @@ import { CategoryFilterBar } from "./category-filter-bar";
 /**
  * 브라우저에서 `GET /api/category`(Next 프록시)를 호출하므로
  * 개발자 도구 → 네트워크에 요청이 보입니다.
+ *
+ * @param {{ onCategorySeqChange?: (categorySeq: number | null) => void }} [props]
  */
-export function CategorySectionFromApi() {
+export function CategorySectionFromApi({ onCategorySeqChange }) {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
   const [fromApi, setFromApi] = useState(false);
@@ -70,7 +72,10 @@ export function CategorySectionFromApi() {
 
   return (
     <>
-      <CategoryFilterBar categories={categories} />
+      <CategoryFilterBar
+        categories={categories}
+        onCategorySeqChange={onCategorySeqChange}
+      />
       {!fromApi ? (
         <p className="mt-2 text-[11px] leading-relaxed text-pick-muted">
           <code className="rounded bg-pick-chip px-1 py-0.5">
