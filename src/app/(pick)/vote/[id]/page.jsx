@@ -287,7 +287,7 @@ export default function VotePage() {
             다음
           </button>
           <Link
-            href={`/create?topicSeq=${encodeURIComponent(String(topicSeq))}`}
+            href={`/vote/${topicSeq}/candidates`}
             className="rounded-xl bg-pick-mint px-3 py-2 text-xs font-bold text-pick-ink shadow-sm ring-1 ring-pick-mint/40 hover:opacity-95"
           >
             + 후보 추가

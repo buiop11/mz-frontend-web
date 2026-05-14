@@ -11,13 +11,21 @@ export default function CategoryPage() {
     <div className="relative flex flex-col pb-24">
       <header className="flex items-center justify-between px-4 py-3">
         <h1 className="font-display text-lg font-bold text-pick-ink">카테고리</h1>
-        <Link
-          href="/create"
-          className="rounded-full p-2 text-pick-ink hover:bg-white/70"
-          aria-label="안건 추가"
-        >
-          <PlusIcon />
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/category/new"
+            className="rounded-full border border-pick-line bg-white px-3 py-1.5 text-xs font-bold text-pick-ink shadow-sm hover:bg-pick-chip/40"
+          >
+            분야 추가
+          </Link>
+          <Link
+            href="/create"
+            className="rounded-full p-2 text-pick-ink hover:bg-white/70"
+            aria-label="안건 추가"
+          >
+            <PlusIcon />
+          </Link>
+        </div>
       </header>
 
       <CategoryTopicPanel />
