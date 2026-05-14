@@ -9,6 +9,7 @@ import {
   parseCandidateListResponse,
 } from "@/lib/api/candidate";
 import { pickTopicSummaryForSeq } from "@/lib/api/topic";
+import { CandidateCommentsPanel } from "@/components/ourpick/candidate-comments-panel";
 
 /**
  * @param {string | string[] | undefined} raw
@@ -388,21 +389,7 @@ export default function VotePage() {
                 </section>
               ) : null}
 
-              <section className="mt-4 rounded-2xl border border-pick-mint/35 bg-pick-mint/10 p-3">
-                <div className="flex items-baseline justify-between gap-2">
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-pick-mint">
-                    댓글
-                  </p>
-                  <span className="rounded-full bg-white/90 px-2 py-0.5 text-xs font-bold text-pick-ink shadow-sm">
-                    {cur.commentCount}개
-                  </span>
-                </div>
-                <p className="mt-2 text-xs leading-relaxed text-pick-muted">
-                  {cur.commentCount > 0
-                    ? "댓글 목록 API가 연결되면 여기에서 대화를 이어갈 수 있어요."
-                    : "아직 댓글이 없어요."}
-                </p>
-              </section>
+              <CandidateCommentsPanel topicSeq={topicSeq} cur={cur} />
 
               <div className="mt-4 flex gap-2">
                 <button
