@@ -137,9 +137,50 @@ export function normalizeTopicRow(item) {
 }
 
 /**
- * @param {unknown} json
- * @returns {{ list: typeof FALLBACK_TOPICS, fromApi: boolean }}
+ * `data.list` 등에서 원시 행 배열을 꺼냅니다.
+ * @param {Record<string, unknown>} data
  */
+function rawTopicRowsFromData(data) {
+  const raw =
+    data.list ?? data.topics ?? data.items ?? data.rows;
+  return Array.isArray(raw) ? raw : [];
+}
+
+/**
+ * 투표 상단 등 — `GET /api/topic?topicSeq=…` 응답에서 해당 토픽 제목·부제를 고릅니다.
+ * 목록(`list[]`) 또는 `data` 단일 객체 형태 모두 처리합니다.
+ *
+ * @param {unknown} json
+ * @param {number|string} topicSeq
+ * @returns {{ title: string, sub: string } | null}
+ */
+export function pickTopicSummaryForSeq(json, topicSeq) {
+  if (json?.code !== "SUC001" || json?.data == null || typeof json.data !== "object") {
+    return null;
+  }
+  const data = /** @type {Record<string, unknown>} */ (json.data);
+  const arr = rawTopicRowsFromData(data);
+  const want = String(topicSeq);
+
+  if (arr.length > 0) {
+    const rows = arr
+      .map((row) => normalizeTopicRow(row))
+      .filter((r) => r.title);
+    const row =
+      rows.find((r) => String(r.topicSeq) === want) ?? rows[0] ?? null;
+    if (row?.title) {
+      return { title: row.title, sub: row.sub };
+    }
+    return null;
+  }
+
+  const row = normalizeTopicRow(data);
+  if (row.title) {
+    return { title: row.title, sub: row.sub };
+  }
+  return null;
+}
+
 export function parseTopicApiResponse(json) {
   if (json?.code !== "SUC001" || json?.data == null) {
     return { list: FALLBACK_TOPICS, fromApi: false };

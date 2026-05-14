@@ -4,7 +4,7 @@ import { resolveBackendApiRoot } from "@/lib/api/category";
 import { getForwardedAuthHeaders } from "@/lib/api/proxy-forward-headers";
 
 /**
- * 브라우저 → `GET /api/topic?...` → 백엔드 `GET /api/topic?...`
+ * 브라우저 → `GET /api/candidate/list?currentPage=1&topicSeq=2` → 백엔드 동일 쿼리로 GET
  */
 export async function GET(request) {
   const root = resolveBackendApiRoot();
@@ -20,15 +20,16 @@ export async function GET(request) {
     );
   }
 
-  const incoming = new URL(request.url).searchParams.toString();
-  const url = `${root}/api/topic${incoming ? `?${incoming}` : ""}`;
+  const q = new URL(request.url).searchParams.toString();
+  const url = `${root}/api/candidate/list${q ? `?${q}` : ""}`;
 
   if (process.env.NODE_ENV === "development") {
-    console.info("[api/topic proxy] →", url);
+    console.info("[api/candidate/list GET proxy] →", url);
   }
 
   try {
     const res = await fetch(url, {
+      method: "GET",
       headers: { Accept: "*/*", ...getForwardedAuthHeaders(request) },
       cache: "no-store",
     });

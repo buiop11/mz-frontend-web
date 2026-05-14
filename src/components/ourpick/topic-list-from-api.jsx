@@ -32,6 +32,7 @@ export function TopicListFromApi({ searchParams }) {
         const suffix = qs ? `?${qs}` : "";
         const res = await fetch(`${path}${suffix}`, {
           headers: { Accept: "*/*" },
+          credentials: "include",
         });
         const json = await res.json();
         const parsed = parseTopicApiResponse(json);

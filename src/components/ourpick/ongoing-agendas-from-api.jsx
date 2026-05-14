@@ -34,6 +34,7 @@ export function OngoingAgendasFromApi({
         const suffix = qs ? `?${qs}` : "";
         const res = await fetch(`/api/topic${suffix}`, {
           headers: { Accept: "*/*" },
+          credentials: "include",
         });
         const json = await res.json();
         const parsed = parseTopicApiResponse(json);
