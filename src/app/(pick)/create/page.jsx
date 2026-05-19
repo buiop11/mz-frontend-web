@@ -9,6 +9,7 @@ import {
   parseCategoryApiResponse,
 } from "@/lib/api/category";
 import { FALLBACK_TOPICS, pickTopicSummaryForSeq } from "@/lib/api/topic";
+import { apiFetch } from "@/lib/auth/api-fetch";
 
 const TOPIC_DRAFT_KEY = "ourpick_topic_draft_v1";
 
@@ -74,7 +75,7 @@ function CreatePageInner() {
     (async () => {
       setLoadingCats(true);
       try {
-        const res = await fetch("/api/category?currentPage=1", {
+        const res = await apiFetch("/api/category?currentPage=1", {
           headers: { Accept: "application/json" },
         });
         const json = await res.json();
@@ -107,7 +108,7 @@ function CreatePageInner() {
             topicSeq: String(seq),
             currentPage: "1",
           }).toString();
-          const res = await fetch(`/api/topic?${qs}`, {
+          const res = await apiFetch(`/api/topic?${qs}`, {
             method: "GET",
             headers: { Accept: "application/json" },
             cache: "no-store",
@@ -158,7 +159,7 @@ function CreatePageInner() {
         inviteContact: inviteMode === "invite" ? inviteContact.trim() : "",
       };
 
-      const res = await fetch("/api/topic", {
+      const res = await apiFetch("/api/topic", {
         method: "POST",
         headers: {
           Accept: "application/json",

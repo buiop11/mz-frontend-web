@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { apiFetch } from "@/lib/auth/api-fetch";
+
 export default function CategoryNewPage() {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -20,7 +22,7 @@ export default function CategoryNewPage() {
     setSubmitting(true);
     setMessage(null);
     try {
-      const res = await fetch("/api/category", {
+      const res = await apiFetch("/api/category", {
         method: "POST",
         headers: {
           Accept: "application/json",

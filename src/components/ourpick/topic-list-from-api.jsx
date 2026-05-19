@@ -7,6 +7,7 @@ import {
   FALLBACK_TOPICS,
   parseTopicApiResponse,
 } from "@/lib/api/topic";
+import { apiFetch } from "@/lib/auth/api-fetch";
 
 /**
  * `GET /api/topic?currentPage=1` 또는 `…&categorySeq=…` (Next 프록시) → 토픽 목록.
@@ -30,10 +31,7 @@ export function TopicListFromApi({ searchParams }) {
       try {
         const path = "/api/topic";
         const suffix = qs ? `?${qs}` : "";
-        const res = await fetch(`${path}${suffix}`, {
-          headers: { Accept: "*/*" },
-          credentials: "include",
-        });
+        const res = await apiFetch(`${path}${suffix}`);
         const json = await res.json();
         const parsed = parseTopicApiResponse(json);
 
@@ -61,11 +59,10 @@ export function TopicListFromApi({ searchParams }) {
     const ok = window.confirm(`「${row.title}」안건을 삭제할까요?`);
     if (!ok) return;
     try {
-      const res = await fetch(
+      const res = await apiFetch(
         `/api/topic?topicSeq=${encodeURIComponent(String(row.topicSeq))}`,
         {
           method: "DELETE",
-          credentials: "include",
           headers: { Accept: "application/json" },
         },
       );

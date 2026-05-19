@@ -10,6 +10,7 @@ import {
 } from "@/lib/api/candidate";
 import { pickTopicSummaryForSeq } from "@/lib/api/topic";
 import { CandidateCommentsPanel } from "@/components/ourpick/candidate-comments-panel";
+import { apiFetch } from "@/lib/auth/api-fetch";
 
 /**
  * @param {string | string[] | undefined} raw
@@ -47,7 +48,7 @@ export default function VotePage() {
     setCountLoading(true);
     try {
       const qs = new URLSearchParams({ topicSeq: String(seq) }).toString();
-      const res = await fetch(`/api/candidate/count?${qs}`, {
+      const res = await apiFetch(`/api/candidate/count?${qs}`, {
         method: "GET",
         headers: { Accept: "application/json" },
         cache: "no-store",
@@ -71,7 +72,7 @@ export default function VotePage() {
         topicSeq: String(seq),
         currentPage: String(page),
       }).toString();
-      const res = await fetch(`/api/candidate/list?${qs}`, {
+      const res = await apiFetch(`/api/candidate/list?${qs}`, {
         method: "GET",
         headers: { Accept: "application/json" },
         cache: "no-store",
@@ -131,7 +132,7 @@ export default function VotePage() {
           topicSeq: String(topicSeq),
           currentPage: "1",
         }).toString();
-        const res = await fetch(`/api/topic?${qs}`, {
+        const res = await apiFetch(`/api/topic?${qs}`, {
           method: "GET",
           headers: { Accept: "application/json" },
           cache: "no-store",

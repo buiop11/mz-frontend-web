@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { parseCommentListResponse } from "@/lib/api/comment";
+import { apiFetch } from "@/lib/auth/api-fetch";
 
 /**
  * @param {{ raw?: unknown, id: string, commentCount?: number }} cur
@@ -54,7 +55,7 @@ export function CandidateCommentsPanel({ topicSeq, cur }) {
         candidateSeq,
         currentPage: "1",
       }).toString();
-      const res = await fetch(`/api/comment/list?${qs}`, {
+      const res = await apiFetch(`/api/comment/list?${qs}`, {
         method: "GET",
         headers: { Accept: "application/json" },
         cache: "no-store",
@@ -105,7 +106,7 @@ export function CandidateCommentsPanel({ topicSeq, cur }) {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch("/api/comment", {
+      const res = await apiFetch("/api/comment", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -151,7 +152,7 @@ export function CandidateCommentsPanel({ topicSeq, cur }) {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch("/api/comment", {
+      const res = await apiFetch("/api/comment", {
         method: "PUT",
         headers: {
           Accept: "application/json",
@@ -198,7 +199,7 @@ export function CandidateCommentsPanel({ topicSeq, cur }) {
     setSubmitting(true);
     setError(null);
     try {
-      const res = await fetch(
+      const res = await apiFetch(
         `/api/comment/${encodeURIComponent(commentSeq)}`,
         {
           method: "DELETE",

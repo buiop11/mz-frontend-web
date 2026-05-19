@@ -1,3 +1,5 @@
+import { getAuthHeaders } from "@/lib/auth/session";
+
 /**
  * JSON fetch 헬퍼. 클라이언트 SWR 등에서 재사용할 수 있습니다.
  * @param {string} url
@@ -8,6 +10,7 @@ export async function fetcher(url, options = {}) {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      ...getAuthHeaders(),
       ...options.headers,
     },
     ...options,

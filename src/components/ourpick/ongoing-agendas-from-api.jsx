@@ -6,6 +6,7 @@ import {
   FALLBACK_TOPICS,
   parseTopicApiResponse,
 } from "@/lib/api/topic";
+import { apiFetch } from "@/lib/auth/api-fetch";
 
 import { AgendaCard } from "./agenda-card";
 
@@ -32,10 +33,7 @@ export function OngoingAgendasFromApi({
       setLoading(true);
       try {
         const suffix = qs ? `?${qs}` : "";
-        const res = await fetch(`/api/topic${suffix}`, {
-          headers: { Accept: "*/*" },
-          credentials: "include",
-        });
+        const res = await apiFetch(`/api/topic${suffix}`);
         const json = await res.json();
         const parsed = parseTopicApiResponse(json);
 

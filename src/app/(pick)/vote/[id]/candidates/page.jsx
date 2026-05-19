@@ -9,6 +9,7 @@ import {
   asNumericTopicSeq,
   parseVoteTopicParam,
 } from "@/lib/ourpick/topic-id";
+import { apiFetch } from "@/lib/auth/api-fetch";
 
 const TOPIC_DRAFT_KEY = "ourpick_topic_draft_v1";
 
@@ -94,7 +95,7 @@ export default function CandidatesRegisterPage() {
             topicSeq: String(numericSeq),
             currentPage: "1",
           }).toString();
-          const res = await fetch(`/api/topic?${qs}`, {
+          const res = await apiFetch(`/api/topic?${qs}`, {
             method: "GET",
             headers: { Accept: "application/json" },
             cache: "no-store",
@@ -163,7 +164,7 @@ export default function CandidatesRegisterPage() {
     try {
       if (numericSeq != null) {
         for (const url of filled) {
-          const res = await fetch("/api/candidate", {
+          const res = await apiFetch("/api/candidate", {
             method: "POST",
             headers: {
               Accept: "application/json",

@@ -6,6 +6,7 @@ import {
   FALLBACK_CATEGORIES,
   parseCategoryApiResponse,
 } from "@/lib/api/category";
+import { apiFetch } from "@/lib/auth/api-fetch";
 
 import { CategoryFilterBar } from "./category-filter-bar";
 
@@ -25,9 +26,7 @@ export function CategorySectionFromApi({ onCategorySeqChange }) {
 
     (async () => {
       try {
-        const res = await fetch("/api/category?currentPage=1", {
-          headers: { Accept: "*/*" },
-        });
+        const res = await apiFetch("/api/category?currentPage=1");
 
         const json = await res.json();
         const parsed = parseCategoryApiResponse(json);
